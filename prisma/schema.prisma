@@ -34,3 +34,12 @@ model Video {
 
    @@map("video")
 }
+
+model Tag {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(255)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+   @@map("tag")
+}
