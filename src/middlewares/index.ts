@@ -1,3 +1,3 @@
-export * from './error-handling-middleware';
-export * from './validation-middleware';
-export * from './authentication-middleware';
+export * from './errorHandlingMiddleware';
+export * from './validationMiddleware';
+export * from './authenticationMiddleware';
