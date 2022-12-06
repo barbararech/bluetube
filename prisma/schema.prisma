@@ -16,4 +16,21 @@ model User {
   password   String       @db.VarChar(255)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
+
+  video     Video[]
+
+   @@map("users")
+}
+
+model Video {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(255)
+  url        String       @db.VarChar(255)
+  views      Int          @default(0)
+  user       User        @relation(fields:[userId], references: [id])
+  userId     Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+   @@map("video")
 }
