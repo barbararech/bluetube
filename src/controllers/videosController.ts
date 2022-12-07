@@ -21,3 +21,10 @@ export async function createVideo(req: AuthenticatedRequest, res: Response) {
 
   return res.status(httpStatus.OK).send('Video created successfully');
 }
+
+export async function updateVideoById(req: AuthenticatedRequest, res: Response) {
+  const id = Number(req.params.id);
+  await videosService.updateVideoById({ ...req.body, id });
+
+  return res.status(httpStatus.OK).send('Video updated successfully');
+}

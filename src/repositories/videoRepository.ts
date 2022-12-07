@@ -1,5 +1,5 @@
 import { prisma } from '../config';
-import { CreateVideoParams } from '../services/videosService';
+import { CreateVideoParams, UpdateVideoParams } from '../services/videosService';
 
 async function findAllVideos() {
   return prisma.video.findMany();
@@ -32,11 +32,25 @@ async function createVideo(data: CreateVideoParams) {
   });
 }
 
+async function updateVideo(data: UpdateVideoParams) {
+  return prisma.video.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      name: data.name,
+      url: data.url,
+      userId: data.userId,
+    },
+  });
+}
+
 const videoRepository = {
   findAllVideos,
   findVideoById,
   updateViews,
   createVideo,
+  updateVideo,
 };
 
 export default videoRepository;
