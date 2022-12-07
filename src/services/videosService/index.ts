@@ -2,7 +2,7 @@ import { notFoundError } from './errors';
 import videoRepository from '../../repositories/videoRepository';
 import { Video } from '@prisma/client';
 
-async function getVideos(): Promise<any> {
+async function getVideos(): Promise<ViewVideoParams> {
   const videos = await videoRepository.findAllVideos();
 
   videos.map((video) => {
@@ -16,10 +16,10 @@ async function getVideos(): Promise<any> {
     Object.assign(video, { tags: arrTags });
   });
 
-  return videos;
+  return videos as unknown as ViewVideoParams;
 }
 
-async function getVideoById(videoId: number): Promise<any> {
+async function getVideoById(videoId: number): Promise<ViewVideoParams> {
   const video = await videoRepository.findVideoById(videoId);
 
   if (!video) throw notFoundError();
@@ -33,7 +33,7 @@ async function getVideoById(videoId: number): Promise<any> {
   delete video.videoTags;
   Object.assign(video, { tags: arrTags });
 
-  return video;
+  return video as unknown as ViewVideoParams;
 }
 
 async function createVideo(data: CreateVideoParams): Promise<Video> {
@@ -63,7 +63,7 @@ async function deleteVideoById(videoId: number): Promise<Video> {
 
 export type CreateVideoParams = Pick<Video, 'name' | 'url' | 'userId'>;
 export type UpdateVideoParams = Pick<Video, 'id' | 'name' | 'url' | 'userId'>;
-// export type ViewVideoParams =
+export type ViewVideoParams = keyof UpdateVideoParams | 'tags';
 
 const videosService = {
   getVideos,
