@@ -28,3 +28,10 @@ export async function updateVideoById(req: AuthenticatedRequest, res: Response) 
 
   return res.status(httpStatus.OK).send('Video updated successfully');
 }
+
+export async function deleteVideoById(req: AuthenticatedRequest, res: Response) {
+  const videoId = Number(req.params.id);
+  await videosService.deleteVideoById(videoId);
+
+  return res.status(httpStatus.OK).send('Video deleted successfully');
+}

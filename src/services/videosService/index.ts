@@ -18,9 +18,9 @@ async function getVideoById(videoId: number): Promise<Video> {
 }
 
 async function createVideo(data: CreateVideoParams): Promise<Video> {
-  const video = await videoRepository.createVideo(data);
+  await videoRepository.createVideo(data);
 
-  return video;
+  return;
 }
 
 async function updateVideoById(data: UpdateVideoParams): Promise<Video> {
@@ -29,7 +29,17 @@ async function updateVideoById(data: UpdateVideoParams): Promise<Video> {
   if (!video) throw notFoundError();
   await videoRepository.updateVideo({ ...data, userId: video.userId });
 
-  return video;
+  return;
+}
+
+async function deleteVideoById(videoId: number): Promise<Video> {
+  const video = await videoRepository.findVideoById(videoId);
+
+  if (!video) throw notFoundError();
+
+  await videoRepository.deleteVideo(videoId);
+
+  return;
 }
 
 export type CreateVideoParams = Pick<Video, 'name' | 'url' | 'userId'>;
@@ -40,6 +50,7 @@ const videosService = {
   getVideoById,
   createVideo,
   updateVideoById,
+  deleteVideoById,
 };
 
 export default videosService;

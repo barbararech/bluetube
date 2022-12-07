@@ -45,12 +45,21 @@ async function updateVideo(data: UpdateVideoParams) {
   });
 }
 
+async function deleteVideo(videoId: number) {
+  return prisma.video.delete({
+    where: {
+      id: videoId,
+    },
+  });
+}
+
 const videoRepository = {
   findAllVideos,
   findVideoById,
   updateViews,
   createVideo,
   updateVideo,
+  deleteVideo,
 };
 
 export default videoRepository;
