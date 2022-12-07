@@ -2,13 +2,48 @@ import { prisma } from '../config';
 import { CreateVideoParams, UpdateVideoParams } from '../services/videosService';
 
 async function findAllVideos() {
-  return prisma.video.findMany();
+  return prisma.video.findMany({
+    distinct: ['id'],
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      userId: true,
+      views: true,
+      videoTags: {
+        select: {
+          tag: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: { id: 'asc' },
+  });
 }
 
 async function findVideoById(videoId: number) {
   return prisma.video.findFirst({
     where: {
       id: videoId,
+    },
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      userId: true,
+      views: true,
+      videoTags: {
+        select: {
+          tag: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
   });
 }
@@ -63,3 +98,16 @@ const videoRepository = {
 };
 
 export default videoRepository;
+
+// select: {
+//   videoTags: {
+//     distinct: ['videoId'],
+//     include: {
+//       tag: {
+//         select: {
+//           name: true,
+//         },
+//       },
+//     },
+//   },
+// },
