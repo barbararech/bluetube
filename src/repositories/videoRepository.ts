@@ -12,9 +12,21 @@ async function findVideoById(videoId: number) {
   });
 }
 
+async function updateViews(videoId: number) {
+  return prisma.video.update({
+    where: {
+      id: videoId,
+    },
+    data: {
+      views: { ['increment']: 1 },
+    },
+  });
+}
+
 const videoRepository = {
   findAllVideos,
   findVideoById,
+  updateViews,
 };
 
 export default videoRepository;
