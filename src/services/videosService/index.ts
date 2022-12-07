@@ -17,9 +17,18 @@ async function getVideoById(videoId: number): Promise<Video> {
   return video;
 }
 
+async function createVideo(data: CreateVideoParams): Promise<Video> {
+  const video = await videoRepository.createVideo(data);
+
+  return video;
+}
+
+export type CreateVideoParams = Pick<Video, 'name' | 'url' | 'userId'>;
+
 const videosService = {
   getVideos,
   getVideoById,
+  createVideo,
 };
 
 export default videosService;

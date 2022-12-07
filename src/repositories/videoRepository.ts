@@ -1,4 +1,5 @@
 import { prisma } from '../config';
+import { CreateVideoParams } from '../services/videosService';
 
 async function findAllVideos() {
   return prisma.video.findMany();
@@ -23,10 +24,19 @@ async function updateViews(videoId: number) {
   });
 }
 
+async function createVideo(data: CreateVideoParams) {
+  return prisma.video.create({
+    data: {
+      ...data,
+    },
+  });
+}
+
 const videoRepository = {
   findAllVideos,
   findVideoById,
   updateViews,
+  createVideo,
 };
 
 export default videoRepository;

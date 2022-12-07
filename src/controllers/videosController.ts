@@ -15,3 +15,9 @@ export async function getVideoById(req: AuthenticatedRequest, res: Response) {
 
   return res.status(httpStatus.OK).send(video);
 }
+
+export async function createVideo(req: AuthenticatedRequest, res: Response) {
+  await videosService.createVideo({ ...req.body, userId: res.locals.userId });
+
+  return res.status(httpStatus.OK).send('Video created successfully');
+}
