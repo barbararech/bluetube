@@ -1,6 +1,6 @@
 import tagRepository from '../../repositories/tagRepository';
 import { notFoundError, duplicatedTagError } from './errors';
-import { Tag } from '@prisma/client';
+import { Tag, VideoTags } from '@prisma/client';
 
 async function getTags(): Promise<ViewTagsParams[]> {
   const tags = await tagRepository.findAllTags();
@@ -18,7 +18,17 @@ async function createTag(data: CreateTagParams): Promise<Tag> {
 
   if (tag) throw duplicatedTagError();
 
-  await tagRepository.createTag(data);
+  const newTag = await tagRepository.createTag(data);
+
+  return newTag;
+}
+
+async function createVideoTags(data: CreateVideoTagsParams): Promise<Tag> {
+  const videoTag = await tagRepository.findVideoTag({ videoId: data.videoId, tagId: data.tagId });
+
+  if (videoTag) throw duplicatedTagError();
+
+  await tagRepository.createVideoTags(data);
 
   return;
 }
@@ -49,11 +59,13 @@ async function deleteTagById(tagId: number): Promise<Tag> {
 
 export type CreateTagParams = Pick<Tag, 'name'>;
 export type ViewTagsParams = Pick<Tag, 'id' | 'name'>;
+export type CreateVideoTagsParams = Pick<VideoTags, 'videoId' | 'tagId'>;
 
 const videosService = {
   getTags,
   getVideosByTag,
   createTag,
+  createVideoTags,
   updateTagById,
   deleteTagById,
 };

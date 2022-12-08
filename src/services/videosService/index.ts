@@ -1,6 +1,7 @@
 import { notFoundError, duplicatedVideoError } from './errors';
 import videoRepository from '../../repositories/videoRepository';
 import { Video } from '@prisma/client';
+import tagService from '../tagsService';
 
 async function getVideos(): Promise<ViewVideoParams> {
   const videos = await videoRepository.findAllVideos();
@@ -36,12 +37,17 @@ async function getVideoById(videoId: number): Promise<ViewVideoParams> {
   return video as unknown as ViewVideoParams;
 }
 
-async function createVideo(data: CreateVideoParams): Promise<Video> {
+async function createVideo(data: any): Promise<Video> {
   const video = await videoRepository.findVideoByName(data.name);
 
   if (video) throw duplicatedVideoError();
 
-  await videoRepository.createVideo(data);
+  const newVideo = await videoRepository.createVideo({ name: data.name, url: data.url, userId: data.userId });
+
+  data.tags.map(async (tag: string) => {
+    const newTag = await tagService.createTag({ name: tag });
+    await tagService.createVideoTags({ videoId: newVideo.id, tagId: newTag.id });
+  });
 
   return;
 }

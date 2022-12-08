@@ -57,5 +57,6 @@ model VideoTags {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
+  @@unique([videoId, tagId])
   @@map("videoTags")
 }
