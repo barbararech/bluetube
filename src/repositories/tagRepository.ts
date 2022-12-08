@@ -1,4 +1,5 @@
 import { prisma } from '../config';
+import { CreateTagParams } from '../services/tagsService';
 
 async function findAllTags() {
   return prisma.tag.findMany({
@@ -35,9 +36,27 @@ async function findVideosByTag(tagName: string) {
   });
 }
 
+async function findTagByName(name: string) {
+  return prisma.tag.findFirst({
+    where: {
+      name: name,
+    },
+  });
+}
+
+async function createTag(data: CreateTagParams) {
+  return prisma.tag.create({
+    data: {
+      ...data,
+    },
+  });
+}
+
 const tagRepository = {
   findAllTags,
   findVideosByTag,
+  findTagByName,
+  createTag,
 };
 
 export default tagRepository;

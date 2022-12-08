@@ -15,3 +15,9 @@ export async function getVideosByTag(req: AuthenticatedRequest, res: Response) {
 
   return res.status(httpStatus.OK).send(videos);
 }
+
+export async function createTag(req: AuthenticatedRequest, res: Response) {
+  await tagsService.createTag({ ...req.body });
+
+  return res.status(httpStatus.OK).send('Tag created successfully');
+}

@@ -10,6 +10,6 @@ export function notFoundError(): ApplicationError {
 export function duplicatedVideoError(): ApplicationError {
   return {
     name: 'DuplicatedVideoError',
-    message: 'There is already an video with this name',
+    message: 'There is already a video with this name',
   };
 }

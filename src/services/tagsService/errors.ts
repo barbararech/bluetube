@@ -6,3 +6,10 @@ export function notFoundError(): ApplicationError {
     message: 'this tag does not exist',
   };
 }
+
+export function duplicatedTagError(): ApplicationError {
+  return {
+    name: 'DuplicatedTagError',
+    message: 'There is already a tag with this name',
+  };
+}

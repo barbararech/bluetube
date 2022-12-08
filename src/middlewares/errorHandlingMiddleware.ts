@@ -8,7 +8,12 @@ export function handleApplicationErrors(
   res: Response,
   next: NextFunction,
 ) {
-  if (err.name === 'ConflictError' || err.name === 'DuplicatedEmailError' || err.name === 'DuplicatedVideoError') {
+  if (
+    err.name === 'ConflictError' ||
+    err.name === 'DuplicatedEmailError' ||
+    err.name === 'DuplicatedVideoError' ||
+    err.name === 'DuplicatedTagError'
+  ) {
     return res.status(httpStatus.CONFLICT).send({
       message: err.message,
     });
