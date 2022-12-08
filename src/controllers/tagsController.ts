@@ -21,3 +21,10 @@ export async function createTag(req: AuthenticatedRequest, res: Response) {
 
   return res.status(httpStatus.OK).send('Tag created successfully');
 }
+
+export async function updateTagById(req: AuthenticatedRequest, res: Response) {
+  const id = Number(req.params.id);
+  await tagsService.updateTagById({ ...req.body, id });
+
+  return res.status(httpStatus.OK).send('Tag updated successfully');
+}

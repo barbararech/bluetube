@@ -23,6 +23,20 @@ async function createTag(data: CreateTagParams): Promise<Tag> {
   return;
 }
 
+async function updateTagById(data: ViewTagsParams): Promise<Tag> {
+  const tag = await tagRepository.findTagById(data.id);
+
+  if (!tag) throw notFoundError();
+
+  const tagByName = await tagRepository.findTagByName(data.name);
+
+  if (tagByName) throw duplicatedTagError();
+
+  await tagRepository.updateTag({ ...data });
+
+  return;
+}
+
 export type CreateTagParams = Pick<Tag, 'name'>;
 export type ViewTagsParams = Pick<Tag, 'id' | 'name'>;
 
@@ -30,6 +44,7 @@ const videosService = {
   getTags,
   getVideosByTag,
   createTag,
+  updateTagById,
 };
 
 export default videosService;
