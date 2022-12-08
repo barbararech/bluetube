@@ -98,16 +98,3 @@ const videoRepository = {
 };
 
 export default videoRepository;
-
-// select: {
-//   videoTags: {
-//     distinct: ['videoId'],
-//     include: {
-//       tag: {
-//         select: {
-//           name: true,
-//         },
-//       },
-//     },
-//   },
-// },
