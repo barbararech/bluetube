@@ -71,6 +71,14 @@ async function updateTag(data: ViewTagsParams) {
   });
 }
 
+async function deleteTag(tagId: number) {
+  return prisma.tag.delete({
+    where: {
+      id: tagId,
+    },
+  });
+}
+
 const tagRepository = {
   findAllTags,
   findVideosByTag,
@@ -78,6 +86,7 @@ const tagRepository = {
   createTag,
   findTagById,
   updateTag,
+  deleteTag,
 };
 
 export default tagRepository;

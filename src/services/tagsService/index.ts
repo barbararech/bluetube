@@ -37,6 +37,16 @@ async function updateTagById(data: ViewTagsParams): Promise<Tag> {
   return;
 }
 
+async function deleteTagById(tagId: number): Promise<Tag> {
+  const tag = await tagRepository.findTagById(tagId);
+
+  if (!tag) throw notFoundError();
+
+  await tagRepository.deleteTag(tagId);
+
+  return;
+}
+
 export type CreateTagParams = Pick<Tag, 'name'>;
 export type ViewTagsParams = Pick<Tag, 'id' | 'name'>;
 
@@ -45,6 +55,7 @@ const videosService = {
   getVideosByTag,
   createTag,
   updateTagById,
+  deleteTagById,
 };
 
 export default videosService;

@@ -28,3 +28,10 @@ export async function updateTagById(req: AuthenticatedRequest, res: Response) {
 
   return res.status(httpStatus.OK).send('Tag updated successfully');
 }
+
+export async function deleteTagById(req: AuthenticatedRequest, res: Response) {
+  const tagId = Number(req.params.id);
+  await tagsService.deleteTagById(tagId);
+
+  return res.status(httpStatus.OK).send('Tag deleted successfully');
+}
