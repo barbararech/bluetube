@@ -1,7 +1,22 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt';
 const prisma = new PrismaClient()
 
 async function main() {
+  await prisma.user.createMany({
+    data: [
+      {
+        email: 'test@test.com',
+        password: await bcrypt.hash('test12345', 12),
+      },
+      {
+        email: 'test2@test2.com',
+        password: await bcrypt.hash('test12345', 12),
+      },
+    ],
+    skipDuplicates: true,
+  });
+
   await prisma.video.createMany({
     data: [
       {
