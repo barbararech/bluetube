@@ -1,4 +1,4 @@
-import { notFoundError } from './errors';
+import { notFoundError, duplicatedVideoError } from './errors';
 import videoRepository from '../../repositories/videoRepository';
 import { Video } from '@prisma/client';
 
@@ -37,6 +37,10 @@ async function getVideoById(videoId: number): Promise<ViewVideoParams> {
 }
 
 async function createVideo(data: CreateVideoParams): Promise<Video> {
+  const video = await videoRepository.findVideoByName(data.name);
+
+  if (video) throw duplicatedVideoError();
+
   await videoRepository.createVideo(data);
 
   return;

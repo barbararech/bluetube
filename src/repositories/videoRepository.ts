@@ -48,6 +48,30 @@ async function findVideoById(videoId: number) {
   });
 }
 
+async function findVideoByName(name: string) {
+  return prisma.video.findFirst({
+    where: {
+      name: name,
+    },
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      userId: true,
+      views: true,
+      videoTags: {
+        select: {
+          tag: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 async function updateViews(videoId: number) {
   return prisma.video.update({
     where: {
@@ -91,6 +115,7 @@ async function deleteVideo(videoId: number) {
 const videoRepository = {
   findAllVideos,
   findVideoById,
+  findVideoByName,
   updateViews,
   createVideo,
   updateVideo,
