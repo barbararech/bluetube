@@ -37,7 +37,7 @@ async function getVideoById(videoId: number): Promise<ViewVideoParams> {
   return video as unknown as ViewVideoParams;
 }
 
-async function createVideo(data: any): Promise<Video> {
+async function createVideo(data: CreateVideoData): Promise<Video> {
   const video = await videoRepository.findVideoByName(data.name);
 
   if (video) throw duplicatedVideoError();
@@ -72,6 +72,13 @@ async function deleteVideoById(videoId: number): Promise<Video> {
 }
 
 export type CreateVideoParams = Pick<Video, 'name' | 'url' | 'userId'>;
+export type CreateVideoData = {
+  name: string;
+  url: string;
+  userId: number;
+  tags: string[];
+};
+export type CreateVideoSchema = Omit<CreateVideoData, 'userId'>;
 export type UpdateVideoParams = Pick<Video, 'id' | 'name' | 'url' | 'userId'>;
 export type ViewVideoParams = keyof UpdateVideoParams | 'tags';
 

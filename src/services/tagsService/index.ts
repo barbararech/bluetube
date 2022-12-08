@@ -8,9 +8,9 @@ async function getTags(): Promise<ViewTagsParams[]> {
   return tags;
 }
 
-async function getVideosByTag(tagName: string): Promise<any> {
+async function getVideosByTag(tagName: string): Promise<ViewVideoTagsParams> {
   const videos = await tagRepository.findVideosByTag(tagName);
-  return videos;
+  return videos as unknown as ViewVideoTagsParams;
 }
 
 async function createTag(data: CreateTagParams): Promise<Tag> {
@@ -59,6 +59,7 @@ async function deleteTagById(tagId: number): Promise<Tag> {
 
 export type CreateTagParams = Pick<Tag, 'name'>;
 export type ViewTagsParams = Pick<Tag, 'id' | 'name'>;
+export type ViewVideoTagsParams = keyof ViewTagsParams | 'video';
 export type CreateVideoTagsParams = Pick<VideoTags, 'videoId' | 'tagId'>;
 
 const videosService = {
